@@ -12,7 +12,7 @@ function Layout({ header, children, footer, ...props }: LayoutProps) {
     <Wrapper {...props}>
       <Header>{header}</Header>
       <Contents>{children}</Contents>
-      <Footer>{footer}</Footer>
+      {footer && <Footer>{footer}</Footer>}
     </Wrapper>
   );
 }

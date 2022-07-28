@@ -139,15 +139,15 @@ function PriceModal() {
   useEffect(changeChartStickColorForPriceRange, [reservationInfo.price]);
 
   const calcAveragePrice = () => {
-    const avergePrice = Math.round(
+    const averagePrice = Math.round(
       reservationInfo.price.averages.reduce((acc, cur) => acc + cur, 0) /
         reservationInfo.price.averages.length
     );
 
-    return addCommasToNumber(avergePrice) || 0;
+    return addCommasToNumber(averagePrice) || 0;
   };
 
-  const changePirceRange = (value: string, rangeName: string) => {
+  const changePriceRange = (value: string, rangeName: string) => {
     const newReservationPrice: Record<string, number | number[] | { min: number; max: number }> = {
       ...reservationInfo.price
     };
@@ -170,7 +170,7 @@ function PriceModal() {
             max={reservationInfo.price.range.max}
             step="100"
             value={reservationInfo.price.min}
-            onChange={({ target }) => changePirceRange(target.value, 'min')}
+            onChange={({ target }) => changePriceRange(target.value, 'min')}
           />
           <RangeButtonRight
             type="range"
@@ -178,7 +178,7 @@ function PriceModal() {
             max={reservationInfo.price.range.max}
             step="100"
             value={reservationInfo.price.max}
-            onChange={({ target }) => changePirceRange(target.value, 'max')}
+            onChange={({ target }) => changePriceRange(target.value, 'max')}
           />
         </RangeButtonWrap>
       </PriceGraphWrap>
