@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReservationInfoProvider } from '@contexts/ReservationInfoProvider';
 import { SelectedModalNameProvider } from '@/contexts/SelectedModalNameProvider';
-import GlobalStyles from '@/GlobalStyles';
+import GlobalStyles from '@/styles/GlobalStyles';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '@/pages';
 
