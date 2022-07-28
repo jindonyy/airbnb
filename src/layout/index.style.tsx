@@ -13,7 +13,7 @@ const Header = styled.header`
   padding: 24px 0;
 `;
 
-const Contents = styled.div``;
+const Contents = styled.main``;
 
 const Footer = styled.footer``;
 
