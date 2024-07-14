@@ -20,11 +20,17 @@ const Label = styled.label`
   font-weight: ${FONT.WEIGHT.MEDIUM};
 `;
 
-const Description = styled.span`
-  display: block;
+const Description = styled.p`
   margin-top: 4px;
   font-size: ${FONT.SIZE.SMALL};
   color: ${COLOR.GREY[300]};
 `;
 
-export { Container, Label, Description };
+const Empty = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: ${FONT.SIZE.MEDIUM};
+`;
+
+export { Container, Label, Description, Empty };

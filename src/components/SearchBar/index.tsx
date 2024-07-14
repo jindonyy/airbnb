@@ -91,7 +91,6 @@ function SearchBar() {
     if (reservationInfo.price.min > 0 && reservationInfo.price.max > 0) {
       setPriceDisabled(false);
     } else {
-      setSelectedModal(null);
       setPriceDisabled(true);
     }
   }, [reservationInfo.price.min, reservationInfo.price.max]);

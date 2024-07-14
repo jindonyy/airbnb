@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { Description } from '@components/Modal/index.style';
+import { Description, Empty } from '@components/Modal/index.style';
 import { COLOR } from '@/constants';
 import Portal from '@components/Modal';
 import {
@@ -112,11 +112,13 @@ function PriceModal() {
 
     if (CANVAS_HEIGHT <= chartAnimationInfo.maxHeight) return;
     chartAnimationInfo.maxHeight += chartAnimationInfo.speed;
-    chartAnimationInfo.speed *= 1.05;
+    chartAnimationInfo.speed *= 1.075;
     chartAnimationInfo.animation = window.requestAnimationFrame(drawStickChartAboutPrice);
   };
 
-  useEffect(drawStickChartAboutPrice, []);
+  useEffect(() => {
+    if (canvasRef.current) drawStickChartAboutPrice();
+  }, []);
 
   const changeChartStickColorForPriceRange = () => {
     const context = createChartCanvas();
@@ -135,7 +137,9 @@ function PriceModal() {
     });
   };
 
-  useEffect(changeChartStickColorForPriceRange, [reservationInfo.price]);
+  useEffect(() => {
+    if (canvasRef.current) changeChartStickColorForPriceRange();
+  }, [reservationInfo.price]);
 
   const calcAveragePrice = () => {
     const averagePrice = Math.round(
@@ -154,38 +158,45 @@ function PriceModal() {
 
   return (
     <Portal>
-      <Title>가격 범위</Title>
-      <Description>
-        평균 1박 요금은 <span>₩ {calcAveragePrice()}</span> 입니다.
-      </Description>
-      <PriceGraphWrap>
-        <PriceGraph ref={canvasRef} />
-        <RangeButtonWrap>
-          <RangeButtonLeft
-            type="range"
-            min={reservationInfo.price.range.min}
-            max={reservationInfo.price.range.max}
-            step="100"
-            value={reservationInfo.price.min}
-            onChange={({ target }) => changePriceRange(target.value, 'min')}
-          />
-          <RangeButtonRight
-            type="range"
-            min={reservationInfo.price.range.min}
-            max={reservationInfo.price.range.max}
-            step="100"
-            value={reservationInfo.price.max}
-            onChange={({ target }) => changePriceRange(target.value, 'max')}
-          />
-        </RangeButtonWrap>
-      </PriceGraphWrap>
-      <PriceRangeText>
-        ₩&nbsp;<span>{addCommasToNumber(reservationInfo.price.min)} </span>&nbsp; - &nbsp;₩&nbsp;
-        <span>
-          {addCommasToNumber(reservationInfo.price.max) +
-            (reservationInfo.price.max === reservationInfo.price.range.max ? '+' : '')}{' '}
-        </span>
-      </PriceRangeText>
+      {reservationInfo.price.min > 0 && reservationInfo.price.max > 0 ? (
+        <>
+          <Title>가격 범위</Title>
+          <Description>
+            평균 1박 요금은 <span>₩ {calcAveragePrice()}</span> 입니다.
+          </Description>
+          <PriceGraphWrap>
+            <PriceGraph ref={canvasRef} />
+            <RangeButtonWrap>
+              <RangeButtonLeft
+                type="range"
+                min={reservationInfo.price.range.min}
+                max={reservationInfo.price.range.max}
+                step="100"
+                value={reservationInfo.price.min}
+                onChange={({ target }) => changePriceRange(target.value, 'min')}
+              />
+              <RangeButtonRight
+                type="range"
+                min={reservationInfo.price.range.min}
+                max={reservationInfo.price.range.max}
+                step="100"
+                value={reservationInfo.price.max}
+                onChange={({ target }) => changePriceRange(target.value, 'max')}
+              />
+            </RangeButtonWrap>
+          </PriceGraphWrap>
+          <PriceRangeText>
+            ₩&nbsp;<span>{addCommasToNumber(reservationInfo.price.min)} </span>&nbsp; -
+            &nbsp;₩&nbsp;
+            <span>
+              {addCommasToNumber(reservationInfo.price.max) +
+                (reservationInfo.price.max === reservationInfo.price.range.max ? '+' : '')}{' '}
+            </span>
+          </PriceRangeText>
+        </>
+      ) : (
+        <Empty>숙박 기간을 선택해주세요.</Empty>
+      )}
     </Portal>
   );
 }
