@@ -80,8 +80,7 @@ function PriceModal() {
     canvas.height = CANVAS_HEIGHT * devicePixelRatio;
 
     const context = canvas.getContext('2d');
-    if (!context) return null;
-    context.scale(devicePixelRatio, devicePixelRatio);
+    context?.scale(devicePixelRatio, devicePixelRatio);
 
     return context;
   };
@@ -147,10 +146,8 @@ function PriceModal() {
     return addCommasToNumber(averagePrice) || 0;
   };
 
-  const changePriceRange = (value: string, rangeName: string) => {
-    const newReservationPrice: Record<string, number | number[] | { min: number; max: number }> = {
-      ...reservationInfo.price
-    };
+  const changePriceRange = (value: string, rangeName: 'min' | 'max') => {
+    const newReservationPrice = { ...reservationInfo.price };
     newReservationPrice[rangeName] = Number(value);
     setReservationInfo({ ...reservationInfo, price: newReservationPrice });
   };
