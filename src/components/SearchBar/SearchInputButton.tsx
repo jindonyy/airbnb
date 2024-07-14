@@ -15,6 +15,7 @@ interface SearchInputButtonProps {
   value?: string | null;
   placeholder: string;
   searchName: string;
+  disabled?: boolean;
 }
 
 function SearchInputButton({
@@ -22,7 +23,8 @@ function SearchInputButton({
   label,
   value = '',
   placeholder,
-  searchName
+  searchName,
+  disabled = false
 }: SearchInputButtonProps) {
   const { selectedModalName, showSearchModal } = useContext(SelectedModalNameContext);
   const { reservationInfo, setReservationInfo, setReservationInfoByPeriod } =
@@ -67,7 +69,12 @@ function SearchInputButton({
 
   return (
     <Container focus={focus}>
-      <InputButton type="button" name={name} onClick={() => showSearchModal(searchName)}>
+      <InputButton
+        type="button"
+        disabled={disabled}
+        name={name}
+        onClick={() => showSearchModal(searchName)}
+      >
         <Label focus={focus}>{label}</Label>
         <div>{value || <PlaceHolder>{placeholder}</PlaceHolder>}</div>
       </InputButton>

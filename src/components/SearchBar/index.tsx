@@ -59,6 +59,7 @@ function SearchBar() {
   const { reservationInfo } = useContext(ReservationInfoContext);
   const { selectedModalName } = useContext(SelectedModalNameContext);
   const [selectedModal, setSelectedModal] = useState<React.ReactNode | null>(null);
+  const [priceDisabled, setPriceDisabled] = useState(true);
 
   const getSelectedModal = () => {
     switch (selectedModalName) {
@@ -76,16 +77,24 @@ function SearchBar() {
     }
   };
 
-  useEffect(getSelectedModal, [selectedModalName]);
-
   const hasReservationDate = reservationInfo.period.checkin && reservationInfo.period.checkout;
-
   const searchInputButtonsValue = [
     reservationInfo.period.checkin,
     reservationInfo.period.checkout,
     getReservationPriceText(reservationInfo.price),
     getReservationPersonnelText(reservationInfo.persons)
   ];
+
+  useEffect(getSelectedModal, [selectedModalName]);
+
+  useEffect(() => {
+    if (reservationInfo.price.min > 0 && reservationInfo.price.max > 0) {
+      setPriceDisabled(false);
+    } else {
+      setSelectedModal(null);
+      setPriceDisabled(true);
+    }
+  }, [reservationInfo.price.min, reservationInfo.price.max]);
 
   return (
     <>
@@ -98,6 +107,7 @@ function SearchBar() {
             label={label}
             placeholder={placeholder}
             searchName={searchName}
+            disabled={searchName === 'price' ? priceDisabled : false}
           />
         ))}
         <SearchButtonWrap disabled={!hasReservationDate}>
